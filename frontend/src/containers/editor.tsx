@@ -79,7 +79,7 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
                             <h1>{title}</h1>
 
                             <label htmlFor="post-title">Title</label>
-                            <input ref={ref => this.titleRef = ref} placeholder="Title" id="post-title" type="text"></input>
+                            <input ref={ref => this.titleRef = ref} placeholder="Title" id="post-title" type="text" autoComplete="off"></input>
 
                             <label htmlFor="post-content">Content</label>
                             <textarea ref={ref => this.editorRef = ref} id="post-content" placeholder="Content"/>

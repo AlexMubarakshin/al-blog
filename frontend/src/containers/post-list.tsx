@@ -1,5 +1,8 @@
 import * as React from "react";
+import { Dispatch } from "redux";
 import { connect } from "react-redux";
+
+import { deletePost } from "src/store/post/postActions";
 
 import { IApplicationStore, IPostStore } from "src/types/store";
 import { Post } from "./post";
@@ -12,6 +15,7 @@ const mapStateToProps = (state: IApplicationStore) => ({
 
 interface IPostListProps {
     postStore?: IPostStore;
+    dispatch?: Dispatch<any>;
 }
 
 interface IPostListState { }
@@ -19,10 +23,19 @@ interface IPostListState { }
 @(connect as any)(mapStateToProps)
 export class PostList extends React.Component<IPostListProps, IPostListState> {
 
+    private onRemovePost = (postID: number) => {
+        this.props.dispatch!!(deletePost(postID));
+    }
+
     private renderPosts = () => (
         this.props.postStore && this.props.postStore.posts.map((value, key) => (
-            <Post {...value} canEdit key={key}/>
-        )))
+            <Post 
+                key={value.id}
+                canEdit
+                onRemoveClick={this.onRemovePost}
+                {...value} />
+        ))
+    )
 
     render() {
         return (
@@ -39,7 +52,7 @@ export class PostList extends React.Component<IPostListProps, IPostListState> {
                         (
                             <p>No posts</p>
                         )
-                        }
+                }
             </Container>
         );
     }

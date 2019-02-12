@@ -1,4 +1,4 @@
-import { POST_CREATE, POST_EDIT } from "src/types/actions";
+import { POST_CREATE, POST_EDIT, POST_DELETE } from "src/types/actions";
 
 import { IPostStore } from "src/types/store";
 import { IPost } from "src/types/model";
@@ -24,6 +24,15 @@ const onPostEdit = (state: IPostStore, post: IPost) => {
     return currentState;
 };
 
+const onPostDelete = (state: IPostStore, postID: number) => {
+    const currentState = Object.assign({}, state);
+
+    const searchedPostIndex = state.posts.findIndex((existedPost) => existedPost.id === postID);
+    currentState.posts.splice(searchedPostIndex, 1);
+
+    return currentState;
+};
+
 export function postReducer(state = initialState, action: any): IPostStore {
     switch (action.type) {
         case POST_CREATE:
@@ -31,6 +40,9 @@ export function postReducer(state = initialState, action: any): IPostStore {
 
         case POST_EDIT:
             return onPostEdit(state, action.post);
+
+        case POST_DELETE:
+            return onPostDelete(state, action.postID);
 
         default:
             return state;

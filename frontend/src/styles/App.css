@@ -5,7 +5,7 @@ main .container {
 }
 
 .navigation {
-    background: #f4f5f6;
+    background: #fff;
     border-bottom: .1rem solid #d1d1d1;
     display: block;
     height: 5.2rem;
@@ -23,7 +23,9 @@ main .container {
     padding-top: 0;
 }
 
-.navigation .navigation-link, .navigation .navigation-title, .navigation .title {
+.navigation .navigation-link,
+.navigation .navigation-title,
+.navigation .title {
     display: inline;
     font-size: 1.6rem;
     line-height: 5.2rem;
@@ -34,4 +36,24 @@ main .container {
 main .header {
     padding-top: 5.2rem;
     background-color: #f4f5f6;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    color: #444;
+}
+
+.card.card--raised {
+    box-shadow: 0 0.2rem 0.4rem 0 rgba(0, 0, 0, .04), 0 0.2rem 1rem 0 rgba(0, 0, 0, .1);
+}
+
+.card__content {
+    padding: 2rem;
+    flex: 1 0 auto;
 }

@@ -19,16 +19,16 @@ class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <AppWrapper>
-                    <Router>
-                        <Switch>
+                <Router>
+                    <Switch>
+                        <AppWrapper>
                             <Route exact path="/" component={Home} />
                             <Route exact path="/post/:id" component={Post} />
                             <Route exact path="/create/post" component={Editor} />
                             <Route exact path="/edit/post/:id" component={Editor} />
-                        </Switch>
-                    </Router>
-                </AppWrapper>
+                        </AppWrapper>
+                    </Switch>
+                </Router>
             </Provider>
         );
     }

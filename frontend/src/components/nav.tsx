@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Container } from "./container";
+import { Link } from "react-router-dom";
 
 interface INavProps {
     siteName: string;
@@ -13,7 +14,7 @@ export class Nav extends React.Component<INavProps, INavState> {
         return (
             <nav className="navigation">
                 <Container>
-                    <a className="navigation-title" href="/"><h1 className="title">{this.props.siteName}</h1></a>
+                    <Link className="navigation-title" to="/"><h1 className="title">{this.props.siteName}</h1></Link>
                 </Container>
             </nav>
         );

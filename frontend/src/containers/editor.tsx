@@ -18,7 +18,7 @@ interface IEditorProps extends RouteComponentProps<any> {
 }
 
 interface IEditorState {
-    editMode?: boolean;
+    editedPost?: IPost;
 }
 
 @(connect as any)(mapStateToProps)
@@ -28,15 +28,15 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
     private editorRef: HTMLTextAreaElement | null;
 
     state: IEditorState = {
-        editMode: false
+        editedPost: undefined
     };
 
     componentDidMount() {
         const editPostID = this.props.match.params.id;
-        const editedPost = !!editPostID && this.props.postStore.posts.find(post => post.id === +editPostID);
+        const editedPost = editPostID && this.props.postStore.posts.find(post => post.id === +editPostID);
 
         this.setState({
-            editMode: !!editedPost
+            editedPost
         });
 
         if (!!editedPost) {
@@ -50,9 +50,10 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
             return;
         }
 
-        const post: IPost = { title: this.titleRef!!.value, content: this.editorRef!!.value, id: 1 };
+        const postID = (this.state.editedPost && this.state.editedPost.id) || this.props.postStore.posts.length + 1;
+        const post: IPost = { title: this.titleRef!!.value, content: this.editorRef!!.value, id: postID };
 
-        if (this.state.editMode) {
+        if (this.state.editedPost) {
             this.props.dispatch!!(editPost(post));
         } else {
             this.props.dispatch!!(createPost(post));
@@ -69,7 +70,7 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
     }
 
     render() {
-        const title = this.state.editMode ? "Edit post" : "Create new post";
+        const title = !!this.state.editedPost ? "Edit post" : "Create new post";
         return (
             <div>
                 <Container>

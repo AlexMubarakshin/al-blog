@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { IApplicationStore, ISiteConfigStore } from "src/types/store";
 import { Link } from "react-router-dom";
 
+// Components
+import { Header } from "src/components/header";
+import { Container } from "src/components/container";
+
 const mapStateToProps = (state: IApplicationStore) => ({
     siteConfig: state.siteReducer
 });
@@ -19,12 +23,14 @@ export class Home extends React.Component<IHomeProps, IHomeState> {
 
     render() {
         return (
-            <div>
-                <h1>{this.props.siteConfig && this.props.siteConfig.siteName}</h1>
+            <>
+                <Header siteName={this.props.siteConfig!!.siteName}/>
                 <PostList />
 
-                <Link to={"/create/post"}>CREATE NEW</Link>
-            </div>
+                <Container>
+                    <Link className="button" to={"/create/post"}>Create new post</Link>
+                </Container>
+            </>
         );
     }
 }

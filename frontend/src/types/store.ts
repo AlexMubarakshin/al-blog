@@ -6,6 +6,9 @@ export interface IPostStore {
 
 export interface ISiteConfigStore {
     siteName: string;
+
+    ownerName: string;
+    ownerSiteURL: string;
 }
 
 export interface IApplicationStore {

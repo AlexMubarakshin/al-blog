@@ -24,6 +24,7 @@
     "jsdoc-format": false,
     "interface-over-type-literal": false,
     "semicolon": true,
-    "quotemark": true
+    "quotemark": true,
+    "jsx-no-lambda": false
   }
 }

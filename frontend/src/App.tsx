@@ -12,6 +12,9 @@ import { Home } from "./containers/home";
 import { Post } from "./containers/post";
 import { Editor } from "./containers/editor";
 
+import { AdminHome } from "./containers/admin/admin-home";
+import { AdminPosts } from "./containers/admin/admin-posts";
+
 // Store
 import { store } from "./store/store";
 
@@ -26,6 +29,9 @@ class App extends React.Component {
                             <Route exact path="/post/:id" component={Post} />
                             <Route exact path="/create/post" component={Editor} />
                             <Route exact path="/edit/post/:id" component={Editor} />
+
+                            <Route exact path="/admin" component={AdminHome} />
+                            <Route exact path="/admin/posts" component={AdminPosts} />
                         </AppWrapper>
                     </Switch>
                 </Router>

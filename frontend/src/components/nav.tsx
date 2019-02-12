@@ -15,6 +15,9 @@ export class Nav extends React.Component<INavProps, INavState> {
             <nav className="navigation">
                 <Container>
                     <Link className="navigation-title" to="/"><h1 className="title">{this.props.siteName}</h1></Link>
+                    <div className="float-right">
+                        <Link className="navigation-title" to="/admin"><p>ADMIN</p></Link>
+                    </div>
                 </Container>
             </nav>
         );

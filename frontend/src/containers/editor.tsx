@@ -8,6 +8,9 @@ import { IPost } from "src/types/model";
 import { IApplicationStore, IPostStore } from "src/types/store";
 import { Container } from "src/components/container";
 
+import axios from "axios";
+import { ROOT_API_URL } from "src/utils/constants";
+
 const mapStateToProps = (state: IApplicationStore) => ({
     postStore: state.postReducer
 });
@@ -33,16 +36,46 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
 
     componentDidMount() {
         const editPostID = this.props.match.params.id;
-        const editedPost = editPostID && this.props.postStore.posts.find(post => post.id === +editPostID);
+
+        if (editPostID) {
+            this.setEditMode(editPostID);
+        }
+    }
+
+    private setEditMode = async (postId: string) => {
+        // Search in redux store
+        const editedPost = this.props.postStore.posts.find(post => post._id === postId);
+        if (editedPost) {
+            this.setEditPost(editedPost);
+            return;
+        }
+
+        // Search at backend
+        try {
+            const response = await axios({
+                method: "GET",
+                url: `${ROOT_API_URL}/post/${postId}`,
+                params: {
+                    id: postId
+                }
+            });
+
+            if (response.data) {
+                this.setEditPost(response.data);
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    private setEditPost = (post: IPost) => {
+        this.titleRef!!.value = post.title;
+        this.editorRef!!.value = post.content;
 
         this.setState({
-            editedPost
+            editedPost: post
         });
-
-        if (!!editedPost) {
-            this.titleRef!!.value = editedPost.title;
-            this.editorRef!!.value = editedPost.content!!;
-        }
     }
 
     private onDone = () => {
@@ -50,16 +83,24 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
             return;
         }
 
-        const postID = (this.state.editedPost && this.state.editedPost.id) || this.props.postStore.posts.length + 1;
-        const post: IPost = { title: this.titleRef!!.value, content: this.editorRef!!.value, id: postID };
+        const post: any = { title: this.titleRef!!.value, content: this.editorRef!!.value };
 
         if (this.state.editedPost) {
-            this.props.dispatch!!(editPost(post));
+            post._id = this.state.editedPost._id;
+            this.props.dispatch!!(editPost(post, this.onPostPosted));
         } else {
-            this.props.dispatch!!(createPost(post));
+            this.props.dispatch!!(createPost(post, this.onPostPosted));
         }
 
-        (this.props as any).history.goBack();
+    }
+
+    private onPostPosted = (err?: any) => {
+        if (!err) {
+            (this.props as any).history.goBack();
+        } else {
+            console.warn(err);
+        }
+
     }
 
     private onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,7 +123,7 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
                             <input ref={ref => this.titleRef = ref} placeholder="Title" id="post-title" type="text" autoComplete="off"></input>
 
                             <label htmlFor="post-content">Content</label>
-                            <textarea ref={ref => this.editorRef = ref} id="post-content" placeholder="Content"/>
+                            <textarea ref={ref => this.editorRef = ref} id="post-content" placeholder="Content" />
                             <button type="submit">DONE</button>
                         </fieldset>
                     </form>

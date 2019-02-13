@@ -2,19 +2,21 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { deletePost } from "src/store/post/postActions";
+import { deletePost, getPosts } from "src/store/post/postActions";
 
-import { IApplicationStore, IPostStore } from "src/types/store";
+import { IApplicationStore, IPostStore, IGlobalStore } from "src/types/store";
 import { Post } from "./post";
 
 import { Container } from "src/components/container";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    postStore: state.postReducer
+    postStore: state.postReducer,
+    globalStore: state.globalReducer
 });
 
 interface IPostListProps {
     postStore?: IPostStore;
+    globalStore?: IGlobalStore;
     dispatch?: Dispatch<any>;
 }
 
@@ -23,19 +25,25 @@ interface IPostListState { }
 @(connect as any)(mapStateToProps)
 export class PostList extends React.Component<IPostListProps, IPostListState> {
 
-    private onRemovePost = (postID: number) => {
+    componentDidMount() {
+        this.props.dispatch!!(getPosts());
+    }
+
+    private onRemovePost = (postID: string) => {
         this.props.dispatch!!(deletePost(postID));
     }
 
-    private renderPosts = () => (
-        this.props.postStore && this.props.postStore.posts.map((value, key) => (
-            <Post 
-                key={value.id}
-                canEdit
+    private renderPosts = () => {
+        const canEdit = !!this.props.globalStore!!.token;
+
+        return this.props.postStore && this.props.postStore.posts.map((value) => (
+            <Post
+                key={value._id}
+                canEdit={canEdit}
                 onRemoveClick={this.onRemovePost}
                 {...value} />
-        ))
-    )
+        ));
+    }
 
     render() {
         return (

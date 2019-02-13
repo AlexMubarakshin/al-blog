@@ -1,0 +1,1 @@
+export const ROOT_API_URL = location.href.indexOf("localhost") > 0 ? "http://localhost:8080/api" : "/api";

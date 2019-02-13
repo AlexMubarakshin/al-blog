@@ -2,6 +2,7 @@ import { IPost } from "./model";
 
 export interface IPostStore {
     posts: IPost[];
+    isFetching: boolean;
 }
 
 export interface ISiteConfigStore {

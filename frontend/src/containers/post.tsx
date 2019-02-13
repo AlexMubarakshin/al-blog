@@ -7,7 +7,7 @@ import { Card } from "src/components/card";
 interface IPostProps extends IPost {
     canEdit?: boolean;
 
-    onRemoveClick?(postID: number): void;
+    onRemoveClick?(postID: string): void;
 }
 
 interface IPostState { }
@@ -18,7 +18,7 @@ export class Post extends React.PureComponent<IPostProps, IPostState> {
         e.preventDefault();
 
         if (this.props.onRemoveClick) {
-            this.props.onRemoveClick(this.props.id);
+            this.props.onRemoveClick(this.props._id);
         }
     }
 
@@ -27,10 +27,10 @@ export class Post extends React.PureComponent<IPostProps, IPostState> {
         return (
             <div className="row">
                 {
-                    this.props.canEdit && (<div className="column column-20"><Link className="button" to={`/edit/post/${this.props.id}`}>Edit</Link></div>)
+                    this.props.canEdit && (<div className="column column-20"><Link className="button" to={`/edit/post/${this.props._id}`}>Edit</Link></div>)
                 }
                 {
-                    this.props.onRemoveClick && (<div className="column column-20"><button onClick={this.onRemoveClick}>Remove</button></div>)
+                    this.props.canEdit && this.props.onRemoveClick && (<div className="column column-20"><button onClick={this.onRemoveClick}>Remove</button></div>)
                 }
             </div>
         );

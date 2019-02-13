@@ -1,8 +1,10 @@
 import { createRequestTypes } from "src/utils/common";
 
-export const POST_CREATE = "@al-blog/POST_CREATE";
-export const POST_DELETE = "@al-blog/POST_DELETE";
-export const POST_EDIT = "@al-blog/POST_EDIT";
+export const POSTS_GET = createRequestTypes("@al-blog/POSTS_GET");
+
+export const POST_CREATE = createRequestTypes("@al-blog/POST_CREATE");
+export const POST_DELETE = createRequestTypes("@al-blog/POST_DELETE");
+export const POST_EDIT = createRequestTypes("@al-blog/POST_EDIT");
 
 export const AUTH_LOGOUT = "@al-blog/AUTH_SIGN_IN_LOGOUT";
 

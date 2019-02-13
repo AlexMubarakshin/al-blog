@@ -2,6 +2,8 @@ import { createStore, applyMiddleware, combineReducers, Reducer, Store } from "r
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 
+import axios from "axios";
+
 import { persistStore, persistReducer, PersistConfig } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -18,6 +20,14 @@ const persistConfig: PersistConfig = {
     storage,
     blacklist: ["postReducer", "authReducer"]
 };
+
+function configureNetwork(store: Store<IApplicationStore>) {
+    const { token } = store.getState().globalReducer;
+    if (token) {
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        console.log(axios.defaults.headers.common);
+    }
+}
 
 export function configureStore(onComplete: () => void): Store<IApplicationStore> {
 
@@ -37,7 +47,11 @@ export function configureStore(onComplete: () => void): Store<IApplicationStore>
         applyMiddleware(...middlewares)
     );
 
-    persistStore(store, undefined, onComplete);
+    persistStore(store, undefined, () => {
+        configureNetwork(store);
+        onComplete();
+    });
+
 
     return store;
 }

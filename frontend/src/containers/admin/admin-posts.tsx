@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Container } from "src/components/container";
 
-import { deletePost } from "src/store/post/postActions";
+import { deletePost, getPosts } from "src/store/post/postActions";
 import { IApplicationStore, IPostStore } from "src/types/store";
 
 const mapStateToProps = (state: IApplicationStore) => ({
@@ -22,7 +22,11 @@ interface IAdminPostsState { }
 @(connect as any)(mapStateToProps)
 export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsState> {
 
-    private onRemovePost = (e: React.MouseEvent<HTMLButtonElement>, postID: number) => {
+    componentDidMount() {
+        this.props.dispatch!!(getPosts());
+    }
+
+    private onRemovePost = (e: React.MouseEvent<HTMLButtonElement>, postID: string) => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -44,16 +48,16 @@ export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsSta
                     <tbody>
                         {
                             this.props.postStore.posts.map((post) => (
-                                <tr key={post.id}>
-                                    <td>{post.id}</td>
+                                <tr key={post._id}>
+                                    <td>{post._id}</td>
                                     <td>{post.title}</td>
                                     <td>
                                         <div className="row">
                                             <div className="column column-40">
-                                                <Link className="button" to={`/edit/post/${post.id}`}>Edit</Link>
+                                                <Link className="button" to={`/edit/post/${post._id}`}>Edit</Link>
                                             </div>
                                             <div className="column column-40">
-                                                <button onClick={(e) => this.onRemovePost(e, post.id)}>Remove</button>
+                                                <button onClick={(e) => this.onRemovePost(e, post._id)}>Remove</button>
                                             </div>
                                         </div>
                                     </td>

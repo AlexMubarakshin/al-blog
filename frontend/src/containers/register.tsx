@@ -42,7 +42,6 @@ export class Register extends React.Component<IRegisterProps, IRegisterState> {
     }
 
     render() {
-        debugger;
         const errMessage = this.props.authStore.registerError && this.props.authStore.registerError[0].messages[0];
         return (
             <Container>

@@ -6,7 +6,6 @@ const config = require('../config')
 const httpStatus = require('http-status')
 
 exports.register = async (req, res, next) => {
-  console.log(req.body)
   try {
     const user = new User(req.body)
     const savedUser = await user.save()

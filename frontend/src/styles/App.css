@@ -38,6 +38,17 @@ main .container {
     text-decoration: none;
 }
 
+.navigation .navigation-links {
+    display: flex;
+}
+.navigation .navigation-link--wrapper:first-child {
+    margin-left: 0;
+}
+
+.navigation .navigation-link--wrapper {
+    margin-left: 24px;
+}
+
 main .header {
     padding-top: 5.2rem;
     background-color: #f4f5f6;

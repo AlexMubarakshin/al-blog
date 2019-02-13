@@ -11,7 +11,18 @@ export interface ISiteConfigStore {
     ownerSiteURL: string;
 }
 
+export interface IGlobalStore {
+    token?: string;
+}
+
+export interface IAuthStore {
+    authError?: any;
+    registerError?: any;
+}
+
 export interface IApplicationStore {
+    authReducer: IAuthStore;
+    globalReducer: IGlobalStore;
     postReducer: IPostStore;
     siteReducer: ISiteConfigStore;
 }

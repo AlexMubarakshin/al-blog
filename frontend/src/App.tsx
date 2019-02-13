@@ -1,25 +1,60 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Store } from "redux";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Styles
 import "milligram";
 import "./styles/App.css";
 
-// Routes
-import { AppWrapper } from "./containers/app-wrapper";
-import { Home } from "./containers/home";
-import { Post } from "./containers/post";
-import { Editor } from "./containers/editor";
-
-import { AdminHome } from "./containers/admin/admin-home";
-import { AdminPosts } from "./containers/admin/admin-posts";
-
 // Store
-import { store } from "./store/store";
+import { configureStore } from "./store/store";
+import { IApplicationStore } from "./types/store";
+import { checkAuthorization } from "./store/auth/authActions";
 
-class App extends React.Component {
+// Routes
+import { Register } from "src/containers/register";
+import { SignIn } from "src/containers/signin";
+import { AppWrapper } from "src/containers/app-wrapper";
+import { Home } from "src/containers/home";
+import { Post } from "src/containers/post";
+import { Editor } from "src/containers/editor";
+
+import { AdminHome } from "src/containers/admin/admin-home";
+import { AdminPosts } from "src/containers/admin/admin-posts";
+
+import { PrivateRoute } from "./router/private-router";
+
+
+interface IAppProps { }
+interface IAppState {
+    store: Store<IApplicationStore>;
+    isLoading: boolean;
+}
+
+class App extends React.Component<IAppProps, IAppState> {
+
+    constructor(props: IAppProps) {
+        super(props);
+
+        this.state = {
+            isLoading: true,
+            store: configureStore(this.onStoreConfigured)
+        };
+    }
+
+    private onStoreConfigured = async () => {
+        (this.state.store as any).dispatch(checkAuthorization());
+
+        this.setState({ isLoading: false });
+    }
+
     render() {
+        if (this.state.isLoading) {
+            return (<h1>Loading...</h1>);
+        }
+
+        const { store } = this.state;
         return (
             <Provider store={store}>
                 <Router>
@@ -30,8 +65,11 @@ class App extends React.Component {
                             <Route exact path="/create/post" component={Editor} />
                             <Route exact path="/edit/post/:id" component={Editor} />
 
-                            <Route exact path="/admin" component={AdminHome} />
-                            <Route exact path="/admin/posts" component={AdminPosts} />
+                            <Route exact path="/auth/login" component={SignIn} />
+                            <Route exact path="/auth/register" component={Register} />
+
+                            <PrivateRoute store={store} exact path="/admin" component={AdminHome} />
+                            <PrivateRoute store={store} exact path="/admin/posts" component={AdminPosts} />
                         </AppWrapper>
                     </Switch>
                 </Router>

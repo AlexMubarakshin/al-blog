@@ -41,6 +41,7 @@ main .container {
 .navigation .navigation-links {
     display: flex;
 }
+
 .navigation .navigation-link--wrapper:first-child {
     margin-left: 0;
 }
@@ -72,4 +73,30 @@ main .header {
 .card__content {
     padding: 2rem;
     flex: 1 0 auto;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    height: 8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.tabs .tab-item {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    border-right: 1px solid #e0e0e0;
+}
+
+.tabs .tab-item:last-child {
+    border-right: none;
+}
+
+.tabs .tab-item p {
+    margin: 0;
 }

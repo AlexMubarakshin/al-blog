@@ -7,6 +7,7 @@ const Post = require('../models/post.model')
 exports.create = (req, res) => {
   const post = new Post({
     title: req.body.title,
+    subtitle: req.body.subtitle,
     content: req.body.content
   })
 
@@ -70,6 +71,7 @@ exports.get = (req, res) => {
 exports.update = (req, res) => {
   Post.findByIdAndUpdate(req.params.id, {
     title: req.body.title,
+    subtitle: req.body.subtitle,
     content: req.body.content
   })
     .then(post => {

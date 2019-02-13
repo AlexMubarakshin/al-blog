@@ -2,12 +2,12 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { deletePost, getPosts } from "src/store/post/postActions";
+import { getPosts } from "src/store/post/postActions";
 
 import { IApplicationStore, IPostStore, IGlobalStore } from "src/types/store";
-import { Post } from "./post";
 
 import { Container } from "src/components/container";
+import { PostMin } from "src/components/post-min";
 
 const mapStateToProps = (state: IApplicationStore) => ({
     postStore: state.postReducer,
@@ -29,19 +29,19 @@ export class PostList extends React.Component<IPostListProps, IPostListState> {
         this.props.dispatch!!(getPosts());
     }
 
-    private onRemovePost = (postID: string) => {
-        this.props.dispatch!!(deletePost(postID));
-    }
+    // private onRemovePost = (postID: string) => {
+    //     this.props.dispatch!!(deletePost(postID));
+    // }
 
     private renderPosts = () => {
-        const canEdit = !!this.props.globalStore!!.token;
+        // const canEdit = !!this.props.globalStore!!.token;
 
         return this.props.postStore && this.props.postStore.posts.map((value) => (
-            <Post
+            <PostMin
                 key={value._id}
-                canEdit={canEdit}
-                onRemoveClick={this.onRemovePost}
-                {...value} />
+                id={value._id}
+                title={value.title}
+                subtitle={value.subtitle} />
         ));
     }
 

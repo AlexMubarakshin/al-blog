@@ -47,7 +47,7 @@ export const getPosts = () => {
     };
 };
 
-export const createPost = (post: { title: string, content: string }, onComplete: (e?: any) => void) => {
+export const createPost = (post: { title: string, content: string, subtitle: string }, onComplete: (e?: any) => void) => {
     return async (dispatch: Dispatch<any>) => {
         try {
 
@@ -58,6 +58,7 @@ export const createPost = (post: { title: string, content: string }, onComplete:
                 url: `${ROOT_API_URL}/post/create`,
                 data: {
                     title: post.title,
+                    subtitle: post.subtitle,
                     content: post.content
                 }
             });

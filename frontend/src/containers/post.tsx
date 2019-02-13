@@ -1,59 +1,68 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+
+import axios from "axios";
 
 import { IPost } from "src/types/model";
 import { Card } from "src/components/card";
 
-interface IPostProps extends IPost {
-    canEdit?: boolean;
+import * as ReactMarkdown from "react-markdown";
+import { RouteComponentProps } from "react-router-dom";
+import { ROOT_API_URL } from "src/utils/constants";
+import { Container } from "src/components/container";
 
-    onRemoveClick?(postID: string): void;
+interface IPostProps extends RouteComponentProps<any> { }
+
+interface IPostState {
+    post?: IPost;
 }
 
-interface IPostState { }
 
 export class Post extends React.PureComponent<IPostProps, IPostState> {
-    private onRemoveClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.stopPropagation();
-        e.preventDefault();
 
-        if (this.props.onRemoveClick) {
-            this.props.onRemoveClick(this.props._id);
+    state: IPostState = {
+        post: undefined
+    };
+
+    async componentDidMount() {
+        const postID = this.props.match.params.id;
+
+        try {
+            const response = await axios({
+                method: "GET",
+                url: `${ROOT_API_URL}/post/${postID}`,
+                params: {
+                    id: postID
+                }
+            });
+
+            if (response.data) {
+                this.setState({
+                    post: response.data
+                });
+                return;
+            }
+        } catch (err) {
+            console.error(err);
         }
     }
 
-    private adminFeatures = () => {
-
-        return (
-            <div className="row">
-                {
-                    this.props.canEdit && (<div className="column column-20"><Link className="button" to={`/edit/post/${this.props._id}`}>Edit</Link></div>)
-                }
-                {
-                    this.props.canEdit && this.props.onRemoveClick && (<div className="column column-20"><button onClick={this.onRemoveClick}>Remove</button></div>)
-                }
-            </div>
-        );
-    }
 
     render() {
-        const renderAdminFeatures = this.props.canEdit || !!this.props.onRemoveClick;
         return (
-            <Card>
-                <div className="row">
-                    <div className="column column-70">
-                        <h2>{this.props.title}</h2>
+            <Container>
+                <Card>
+                    <div className="row">
+                        <div className="column column-70">
+                            <h2>{this.state.post ? this.state.post.title : ""}</h2>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="column">
-                        <p>{this.props.content}</p>
+                    <div className="row">
+                        <div className="column">
+                            <ReactMarkdown source={this.state.post ? this.state.post.content : ""} />
+                        </div>
                     </div>
-                </div>
-                {
-                    renderAdminFeatures && this.adminFeatures()
-                }
-            </Card>
+                </Card>
+            </Container>
         );
     }
 }

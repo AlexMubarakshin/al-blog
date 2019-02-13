@@ -7,6 +7,7 @@ module.exports = {
   create: {
     body: {
       title: Joi.string().required(),
+      subtitle: Joi.string().required(),
       content: Joi.string().required()
     }
   }

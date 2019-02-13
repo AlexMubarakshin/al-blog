@@ -7,9 +7,18 @@ import { createPost, editPost } from "src/store/post/postActions";
 import { IPost } from "src/types/model";
 import { IApplicationStore, IPostStore } from "src/types/store";
 import { Container } from "src/components/container";
+import { Card } from "src/components/card";
+
+import * as ReactMarkdown from "react-markdown";
 
 import axios from "axios";
 import { ROOT_API_URL } from "src/utils/constants";
+import { Tabs } from "src/components/tabs";
+
+enum EditorMode {
+    EDITOR = "EDITOR",
+    PREVIEW = "PREVIEW"
+}
 
 const mapStateToProps = (state: IApplicationStore) => ({
     postStore: state.postReducer
@@ -21,17 +30,21 @@ interface IEditorProps extends RouteComponentProps<any> {
 }
 
 interface IEditorState {
-    editedPost?: IPost;
+    editorMode: EditorMode;
+
+    title: string;
+    subtitle: string;
+    content: string;
 }
 
 @(connect as any)(mapStateToProps)
 export class Editor extends React.Component<IEditorProps, IEditorState> {
 
-    private titleRef: HTMLInputElement | null;
-    private editorRef: HTMLTextAreaElement | null;
-
     state: IEditorState = {
-        editedPost: undefined
+        editorMode: EditorMode.EDITOR,
+        title: "",
+        subtitle: "",
+        content: ""
     };
 
     componentDidMount() {
@@ -43,14 +56,6 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
     }
 
     private setEditMode = async (postId: string) => {
-        // Search in redux store
-        const editedPost = this.props.postStore.posts.find(post => post._id === postId);
-        if (editedPost) {
-            this.setEditPost(editedPost);
-            return;
-        }
-
-        // Search at backend
         try {
             const response = await axios({
                 method: "GET",
@@ -70,23 +75,24 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
     }
 
     private setEditPost = (post: IPost) => {
-        this.titleRef!!.value = post.title;
-        this.editorRef!!.value = post.content;
-
         this.setState({
-            editedPost: post
+            title: post.title,
+            content: post.content,
+            subtitle: post.subtitle
         });
     }
 
     private onDone = () => {
-        if (this.titleRef!!.value === "" || this.editorRef!!.value === "") {
+        if (this.state.title === "" || this.state.subtitle === "" || this.state.content === "") {
             return;
         }
 
-        const post: any = { title: this.titleRef!!.value, content: this.editorRef!!.value };
+        const post: any = { title: this.state.title, content: this.state.content, subtitle: this.state.subtitle };
 
-        if (this.state.editedPost) {
-            post._id = this.state.editedPost._id;
+        const editPostID = this.props.match.params.id;
+
+        if (editPostID) {
+            post._id = editPostID;
             this.props.dispatch!!(editPost(post, this.onPostPosted));
         } else {
             this.props.dispatch!!(createPost(post, this.onPostPosted));
@@ -100,7 +106,6 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
         } else {
             console.warn(err);
         }
-
     }
 
     private onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -110,23 +115,76 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
         this.onDone();
     }
 
+    private setMode = (editorMode: EditorMode) => {
+        this.setState({
+            editorMode
+        });
+    }
+
+    private tabs = [
+        { title: "Editor", onClick: () => this.setMode(EditorMode.EDITOR) },
+        { title: "Preview", onClick: () => this.setMode(EditorMode.PREVIEW) }
+    ];
+
     render() {
-        const title = !!this.state.editedPost ? "Edit post" : "Create new post";
+        const editPostID = this.props.match.params.id;
+        const title = !!editPostID ? "Edit post" : "Create new post";
+
         return (
             <div>
                 <Container>
-                    <form onSubmit={this.onFormSubmit}>
-                        <fieldset>
-                            <h1>{title}</h1>
+                    <Tabs tabs={this.tabs} />
+                    {
+                        this.state.editorMode === EditorMode.EDITOR ?
+                            (
+                                <Card>
+                                    <form onSubmit={this.onFormSubmit}>
+                                        <fieldset>
+                                            <h1>{title}</h1>
 
-                            <label htmlFor="post-title">Title</label>
-                            <input ref={ref => this.titleRef = ref} placeholder="Title" id="post-title" type="text" autoComplete="off"></input>
+                                            <label htmlFor="post-title">Title</label>
+                                            <input
+                                                value={this.state.title}
+                                                onChange={e => this.setState({ title: e.target.value })}
+                                                placeholder="Title"
+                                                id="post-title"
+                                                type="text"
+                                                autoComplete="off">
+                                            </input>
 
-                            <label htmlFor="post-content">Content</label>
-                            <textarea ref={ref => this.editorRef = ref} id="post-content" placeholder="Content" />
-                            <button type="submit">DONE</button>
-                        </fieldset>
-                    </form>
+                                            <label htmlFor="post-subtitle">Subtitle</label>
+                                            <input
+                                                value={this.state.subtitle}
+                                                onChange={e => this.setState({ subtitle: e.target.value })}
+                                                placeholder="Subtitle"
+                                                id="post-subtitle"
+                                                type="text"
+                                                autoComplete="off">
+                                            </input>
+
+                                            <label htmlFor="post-content">Content</label>
+                                            <textarea
+                                                style={{ maxWidth: "714px", resize: "vertical", height: "512px" }}
+                                                rows={555}
+                                                value={this.state.content}
+                                                onChange={e => this.setState({ content: e.target.value })}
+                                                id="post-content"
+                                                placeholder="Content" />
+                                            <button className="float-right" type="submit">DONE</button>
+                                        </fieldset>
+                                    </form>
+                                </Card>
+                            )
+                            :
+                            (
+                                <>
+                                    <Card>
+                                        <h2>{this.state.title}</h2>
+                                        <ReactMarkdown source={this.state.content} />
+                                    </Card>
+                                </>
+                            )
+                    }
                 </Container>
             </div>
         );

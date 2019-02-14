@@ -1,8 +1,8 @@
 # Al-Blog
+🚧 Work in progress  
 
-Personal blog on React
-
-🚧 Work in progress
+This is my full-stack personal blog build with: `Express`, `React`.  
+Posts are saved in markdown format and renders with `react-markdown`
 
 ## Usage:
 
@@ -16,6 +16,11 @@ $ npm start
 - Run backend
 ```
 $ cd ./al-blog/backend
+```
+
+Rename `.env.example` to .env
+
+```
 $ npm i
 $ npm start
 

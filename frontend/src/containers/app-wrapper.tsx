@@ -9,13 +9,13 @@ import { Nav } from "src/components/nav";
 import { logout } from "src/store/auth/authActions";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    siteConfig: state.siteReducer,
-    global: state.globalReducer
+    siteConfig: state.siteStore,
+    globalStore: state.globalStore
 });
 
 interface IAppWrapperProps {
     siteConfig?: ISiteConfigStore;
-    global?: IGlobalStore;
+    globalStore?: IGlobalStore;
 
     dispatch?: Dispatch<any>;
 }
@@ -28,7 +28,7 @@ export class AppWrapper extends React.Component<IAppWrapperProps, IAppWrapperSta
     render() {
         const { siteConfig } = this.props;
         const links = [];
-        if (this.props.global!!.token) {
+        if (this.props.globalStore && this.props.globalStore.token) {
             links.push({ title: "Admin", to: "/admin" });
             links.push({ title: "Logout", onClick: () => this.props.dispatch!!(logout()) });
         } else {

@@ -11,6 +11,8 @@ import { postReducer } from "./post/postReducer";
 import { siteReducer } from "./site/siteReducer";
 import { authReducer } from "./auth/authReducer";
 import { globalReducer } from "./global/globalReducer";
+import { adminReducer } from "./admin/";
+
 import { IApplicationStore } from "src/types/store";
 
 
@@ -22,20 +24,21 @@ const persistConfig: PersistConfig = {
 };
 
 function configureNetwork(store: Store<IApplicationStore>) {
-    const { token } = store.getState().globalReducer;
+    const { token } = store.getState().globalStore;
+
     if (token) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        console.log(axios.defaults.headers.common);
     }
 }
 
 export function configureStore(onComplete: () => void): Store<IApplicationStore> {
 
     const rootReducer: Reducer<IApplicationStore> = combineReducers({
-        postReducer,
-        siteReducer,
-        authReducer,
-        globalReducer
+        adminStore: adminReducer,
+        authStore: authReducer,
+        globalStore: globalReducer,
+        postStore: postReducer,
+        siteStore: siteReducer
     });
 
     const persistedReducer = persistReducer(persistConfig, rootReducer);

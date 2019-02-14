@@ -1,19 +1,38 @@
 import * as React from "react";
-import { Container } from "src/components/container";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-interface IAdminHomeProps {}
+import { Container } from "src/components/container";
 
-interface IAdminHomeState {}
+import { getUsersList } from "src/store/admin/users/usersActions";
+import { getPosts } from "src/store/post/postActions";
 
+interface IAdminHomeProps {
+    dispatch: Dispatch<any>;
+}
+
+interface IAdminHomeState { }
+
+@(connect as any)()
 export class AdminHome extends React.Component<IAdminHomeProps, IAdminHomeState> {
+    componentDidMount() {
+        this.props.dispatch(getUsersList());
+        this.props.dispatch(getPosts());
+    }
 
     render() {
         return (
             <Container>
                 <h1>Admin panel</h1>
-
-                <Link to="/admin/posts">Post panel</Link>
+                <ul>
+                    <li>
+                        <Link to="/admin/posts">Posts panel</Link>
+                    </li>
+                    <li>
+                        <Link to="/admin/users">Users panel</Link>
+                    </li>
+                </ul>
             </Container>
         );
     }

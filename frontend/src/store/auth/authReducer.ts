@@ -1,4 +1,4 @@
-import { Action } from "redux";
+import { AnyAction } from "redux";
 
 import { AUTH_REGISTER, AUTH_SIGN_IN } from "src/types/actions";
 
@@ -9,7 +9,7 @@ const authStoreInitialState: IAuthStore = {
     authError: undefined
 };
 
-export function authReducer(state = authStoreInitialState, action: Action<any>): IAuthStore {
+export function authReducer(state = authStoreInitialState, action: AnyAction): IAuthStore {
     switch (action.type) {
         case AUTH_REGISTER.REQUEST:
         case AUTH_SIGN_IN.REQUEST:
@@ -18,7 +18,7 @@ export function authReducer(state = authStoreInitialState, action: Action<any>):
         case AUTH_REGISTER.FAILURE:
             return {
                 ...state,
-                registerError: (action as any).error
+                registerError: action.error
             };
 
         case AUTH_REGISTER.SUCCESS:

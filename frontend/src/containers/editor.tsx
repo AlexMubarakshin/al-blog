@@ -21,7 +21,7 @@ enum EditorMode {
 }
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    postStore: state.postReducer
+    postStore: state.postStore
 });
 
 interface IEditorProps extends RouteComponentProps<any> {

@@ -8,7 +8,7 @@ import { deletePost, getPosts } from "src/store/post/postActions";
 import { IApplicationStore, IPostStore } from "src/types/store";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    postStore: state.postReducer
+    postStore: state.postStore
 });
 
 

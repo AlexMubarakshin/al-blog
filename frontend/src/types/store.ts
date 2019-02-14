@@ -1,4 +1,4 @@
-import { IPost } from "./model";
+import { IPost, IUser } from "./model";
 
 export interface IPostStore {
     posts: IPost[];
@@ -21,9 +21,19 @@ export interface IAuthStore {
     registerError?: any;
 }
 
+export interface IAdminUserStore {
+    isFetching: boolean;
+    users: IUser[];
+}
+
+export interface IAdminStore {
+    usersStore: IAdminUserStore;
+}
+
 export interface IApplicationStore {
-    authReducer: IAuthStore;
-    globalReducer: IGlobalStore;
-    postReducer: IPostStore;
-    siteReducer: ISiteConfigStore;
+    adminStore: IAdminStore;
+    authStore: IAuthStore;
+    globalStore: IGlobalStore;
+    postStore: IPostStore;
+    siteStore: ISiteConfigStore;
 }

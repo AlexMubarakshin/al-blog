@@ -9,7 +9,7 @@ import { IApplicationStore, IAuthStore } from "src/types/store";
 import { register } from "src/store/auth/authActions";
 
 const mapStateToProps = (state: IApplicationStore) => ({ 
-    authStore: state.authReducer
+    authStore: state.authStore
 });
 
 interface IRegisterProps extends RouteComponentProps<any> { 

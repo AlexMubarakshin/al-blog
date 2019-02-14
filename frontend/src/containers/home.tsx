@@ -7,7 +7,7 @@ import { IApplicationStore, ISiteConfigStore } from "src/types/store";
 import { Header } from "src/components/header";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    siteConfig: state.siteReducer
+    siteConfig: state.siteStore
 });
 
 interface IHomeProps {

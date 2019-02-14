@@ -14,7 +14,7 @@ export class PrivateRoute extends React.Component<IPrivateRouterProps, IPrivateR
 
     render() {
         const { store, component: Komponent, ...rest } = this.props as any;
-        const { token } = store.getState().globalReducer;
+        const { token } = (store.getState() as IApplicationStore).globalStore;
         return (
             <Route
                 {...rest}

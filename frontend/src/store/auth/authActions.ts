@@ -81,8 +81,8 @@ export const logout = () => {
 
 export const checkAuthorization = () => {
     return async (dispatch: Dispatch<any>, getState: () => IApplicationStore) => {
-        const { globalReducer } = getState();
-        if (globalReducer.token) {
+        const { globalStore } = getState();
+        if (globalStore.token) {
             try {
                 const response = await axios({
                     url: "http://localhost:8080/api/auth/secret1",

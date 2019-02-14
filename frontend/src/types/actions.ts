@@ -12,4 +12,4 @@ export const AUTH_SIGN_IN = createRequestTypes("@al-blog/AUTH_SIGN_IN");
 export const AUTH_REGISTER = createRequestTypes("@al-blog/AUTH_REGISTER_REQUEST");
 
 
-export const ADMIN_USERS_GET = createRequestTypes("@al-blog/ADMIN/AUTH_REGISTER_REQUEST");
+export const ADMIN_USERS_GET = createRequestTypes("@al-blog/ADMIN/USERS_GET");

@@ -10,8 +10,8 @@ import { Container } from "src/components/container";
 import { PostMin } from "src/components/post-min";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    postStore: state.postReducer,
-    globalStore: state.globalReducer
+    postStore: state.postStore,
+    globalStore: state.globalStore
 });
 
 interface IPostListProps {

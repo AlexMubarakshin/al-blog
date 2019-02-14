@@ -22,6 +22,7 @@ import { Editor } from "src/containers/editor";
 
 import { AdminHome } from "src/containers/admin/admin-home";
 import { AdminPosts } from "src/containers/admin/admin-posts";
+import { AdminUsers } from "src/containers/admin/admin-users";
 
 import { PrivateRoute } from "./router/private-router";
 
@@ -70,6 +71,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
                             <PrivateRoute store={store} exact path="/admin" component={AdminHome} />
                             <PrivateRoute store={store} exact path="/admin/posts" component={AdminPosts} />
+                            <PrivateRoute store={store} exact path="/admin/users" component={AdminUsers} />
                         </AppWrapper>
                     </Switch>
                 </Router>

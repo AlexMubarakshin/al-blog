@@ -10,7 +10,7 @@ import { IApplicationStore, IAuthStore } from "src/types/store";
 import { signIn } from "src/store/auth/authActions";
 
 const mapStateToProps = (state: IApplicationStore) => ({
-    authStore: state.authReducer
+    authStore: state.authStore
 });
 
 interface ISignInProps extends RouteComponentProps<any> {

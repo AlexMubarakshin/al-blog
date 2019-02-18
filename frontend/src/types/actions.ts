@@ -1,15 +1,27 @@
 import { createRequestTypes } from "src/utils/common";
 
-export const POSTS_GET = createRequestTypes("@al-blog/POSTS_GET");
+const BASE_ACTION = "@al-blog";
 
-export const POST_CREATE = createRequestTypes("@al-blog/POST_CREATE");
-export const POST_DELETE = createRequestTypes("@al-blog/POST_DELETE");
-export const POST_EDIT = createRequestTypes("@al-blog/POST_EDIT");
+//#region PROFILE ACTIONS
+export const PROFILE_GET = createRequestTypes(`${BASE_ACTION}/PROFILE_GET`);
+//#endregion
 
-export const AUTH_LOGOUT = "@al-blog/AUTH_SIGN_IN_LOGOUT";
+//#region POST ACTIONS
+export const POSTS_GET = createRequestTypes(`${BASE_ACTION}/POSTS_GET`);
 
-export const AUTH_SIGN_IN = createRequestTypes("@al-blog/AUTH_SIGN_IN");
-export const AUTH_REGISTER = createRequestTypes("@al-blog/AUTH_REGISTER_REQUEST");
+export const POST_CREATE = createRequestTypes(`${BASE_ACTION}/POST_CREATE`);
+export const POST_DELETE = createRequestTypes(`${BASE_ACTION}/POST_DELETE`);
+export const POST_EDIT = createRequestTypes(`${BASE_ACTION}/POST_EDIT`);
+//#endregion
+
+//#region AUTH ACTIONS
+export const AUTH_LOGOUT = `${BASE_ACTION}/AUTH_SIGN_IN_LOGOUT`;
+
+export const AUTH_SIGN_IN = createRequestTypes(`${BASE_ACTION}/AUTH_SIGN_IN`);
+export const AUTH_REGISTER = createRequestTypes(`${BASE_ACTION}/AUTH_REGISTER_REQUEST`);
+//#endregion
 
 
-export const ADMIN_USERS_GET = createRequestTypes("@al-blog/ADMIN/USERS_GET");
+//#region ADMIN ACTIONS
+export const ADMIN_USERS_GET = createRequestTypes(`${BASE_ACTION}/ADMIN/USERS_GET`);
+//#endregion

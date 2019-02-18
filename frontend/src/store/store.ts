@@ -7,6 +7,7 @@ import axios from "axios";
 import { persistStore, persistReducer, PersistConfig } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+import { userReducer } from "./profile/profileReducer";
 import { postReducer } from "./post/postReducer";
 import { siteReducer } from "./site/siteReducer";
 import { authReducer } from "./auth/authReducer";
@@ -20,7 +21,7 @@ const persistConfig: PersistConfig = {
     key: "root",
     keyPrefix: "",
     storage,
-    blacklist: ["postReducer", "authReducer"]
+    blacklist: ["postReducer", "authReducer", "adminReducer"]
 };
 
 function configureNetwork(store: Store<IApplicationStore>) {
@@ -38,7 +39,8 @@ export function configureStore(onComplete: () => void): Store<IApplicationStore>
         authStore: authReducer,
         globalStore: globalReducer,
         postStore: postReducer,
-        siteStore: siteReducer
+        siteStore: siteReducer,
+        profileStore: userReducer
     });
 
     const persistedReducer = persistReducer(persistConfig, rootReducer);

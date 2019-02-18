@@ -10,7 +10,7 @@ import "./styles/App.css";
 // Store
 import { configureStore } from "./store/store";
 import { IApplicationStore } from "./types/store";
-import { checkAuthorization } from "./store/auth/authActions";
+import { getProfile } from "./store/profile/profileActions";
 
 // Routes
 import { Register } from "src/containers/register";
@@ -45,7 +45,7 @@ class App extends React.Component<IAppProps, IAppState> {
     }
 
     private onStoreConfigured = async () => {
-        (this.state.store as any).dispatch(checkAuthorization());
+        (this.state.store as any).dispatch(getProfile());
 
         this.setState({ isLoading: false });
     }

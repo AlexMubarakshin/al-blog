@@ -30,10 +30,16 @@ export interface IAdminStore {
     usersStore: IAdminUserStore;
 }
 
+export interface IProfileStore {
+    isFetching: boolean;
+    user?: IUser;
+}
+
 export interface IApplicationStore {
     adminStore: IAdminStore;
     authStore: IAuthStore;
     globalStore: IGlobalStore;
     postStore: IPostStore;
     siteStore: ISiteConfigStore;
+    profileStore: IProfileStore;
 }

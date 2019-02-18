@@ -16,7 +16,7 @@ export const getUsersList = () => {
 
             const response = await axios({
                 method: "GET",
-                url: `${ROOT_API_URL}/users`
+                url: `${ROOT_API_URL}/admin/users`
             });
 
             dispatch(usersGetSuccess(response.data.users));

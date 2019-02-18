@@ -8,6 +8,7 @@ import { Container } from "src/components/container";
 import { IApplicationStore, IAuthStore } from "src/types/store";
 
 import { signIn } from "src/store/auth/authActions";
+import { getProfile } from "src/store/profile/profileActions";
 
 const mapStateToProps = (state: IApplicationStore) => ({
     authStore: state.authStore
@@ -35,8 +36,9 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
         const password = this.passwordInputRef.value;
         this.props.dispatch(signIn(email, password, this.onSignInSuccess));
     }
-    
+
     private onSignInSuccess = () => {
+        this.props.dispatch(getProfile());
         this.props.history.push("/");
     }
 
@@ -50,11 +52,11 @@ export class SignIn extends React.Component<ISignInProps, ISignInState> {
                         <h1>Sign in</h1>
 
                         <label htmlFor="auth-email">Email</label>
-                        <input ref={ref => this.emailInputRef = ref!!}placeholder="Email" id="auth-email" type="email" autoComplete="off"></input>
+                        <input ref={ref => this.emailInputRef = ref!!} placeholder="Email" id="auth-email" type="email" autoComplete="off"></input>
 
                         <label htmlFor="auth-password">Password</label>
-                        <input ref={ref => this.passwordInputRef = ref!!}placeholder="Password" id="auth-password" type="password" autoComplete="off"></input>
-                        
+                        <input ref={ref => this.passwordInputRef = ref!!} placeholder="Password" id="auth-password" type="password" autoComplete="off"></input>
+
                         <p>{errMessage || ""}</p>
 
                         <div>

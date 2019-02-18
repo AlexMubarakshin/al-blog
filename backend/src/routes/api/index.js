@@ -6,7 +6,7 @@ const authRouter = require('./auth.route')
 const postRouter = require('./post.route')
 const postsRouter = require('./posts.route')
 const profileRouter = require('./profile.route')
-const usersRouter = require('./users.route')
+const adminRouter = require('./admin.route')
 
 router.get('/status', (req, res) => { res.send({ status: 'OK' }) }) // api status
 
@@ -18,6 +18,6 @@ router.use('/posts', postsRouter) // mount posts paths
 
 router.use('/profile', profileRouter) // mount profile paths
 
-router.use('/users', usersRouter) // mount users paths
+router.use('/admin', adminRouter) // mount admin paths
 
 module.exports = router

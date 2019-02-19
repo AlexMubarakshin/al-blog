@@ -87,11 +87,9 @@ export const editPost = (post: IPost, onComplete: (e?: any) => void) => {
             await axios({
                 method: "PUT",
                 url: `${ROOT_API_URL}/post/${post._id}`,
-                params: {
-                    id: post._id
-                },
                 data: {
                     title: post.title,
+                    subtitle: post.subtitle,
                     content: post.content
                 }
             });

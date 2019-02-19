@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 
-import { ADMIN_USERS_GET } from "src/types/actions";
+import { ADMIN_USERS_GET, ADMIN_USERS_DELETE } from "src/types/actions";
 import { IAdminUserStore } from "src/types/store";
 
 const initialState: IAdminUserStore = {
@@ -25,6 +25,10 @@ export function userReducer(state = initialState, action: AnyAction): IAdminUser
                 users: action.users,
                 isFetching: false
             };
+        case ADMIN_USERS_DELETE.REQUEST:
+        case ADMIN_USERS_DELETE.FAILURE:
+        case ADMIN_USERS_DELETE.SUCCESS:
+            return state;
 
         default:
             return state;

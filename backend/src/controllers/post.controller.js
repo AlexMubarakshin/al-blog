@@ -4,7 +4,7 @@ const httpStatus = require('http-status')
 
 const Post = require('../models/post.model')
 
-exports.create = (req, res) => {
+exports.save = (req, res) => {
   const post = new Post({
     title: req.body.title,
     subtitle: req.body.subtitle,
@@ -28,12 +28,13 @@ exports.create = (req, res) => {
 exports.delete = (req, res) => {
   Post.findByIdAndRemove(req.params.id).then(post => {
     if (!post) {
-      res.status(httpStatus.NOT_FOUND).send({
+      return res.status(httpStatus.NOT_FOUND).send({
         status: httpStatus.OK,
         message: 'Post not found with id ' + req.params.id
       })
     }
-    res.send({ status: httpStatus.OK, message: 'Post deleted successfully!' })
+
+    return res.send({ status: httpStatus.OK, message: 'Post deleted successfully!' })
   })
     .catch(err => {
       if (err.kind === 'ObjectId' || err.name === 'NotFound') {

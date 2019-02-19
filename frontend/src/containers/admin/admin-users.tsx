@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Container } from "src/components/container";
 
-import { getUsersList } from "src/store/admin/users/usersActions";
+import { getUsersList, deleteUser } from "src/store/admin/users/usersActions";
 
 import { IApplicationStore, IAdminUserStore } from "src/types/store";
 
@@ -26,6 +26,13 @@ export class AdminUsers extends React.Component<IAdminUsersProps, IAdminUsersSta
         this.props.dispatch(getUsersList());
     }
 
+    private onUserDelete = (e: React.MouseEvent<HTMLButtonElement>, userID: string) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        this.props.dispatch(deleteUser(userID));
+    }
+
     render() {
         return (
             <Container>
@@ -37,6 +44,7 @@ export class AdminUsers extends React.Component<IAdminUsersProps, IAdminUsersSta
                             <th>Role</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +55,13 @@ export class AdminUsers extends React.Component<IAdminUsersProps, IAdminUsersSta
                                     <td>{user.role}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
+                                    <td>
+                                        <div className="row">
+                                            <div className="column column-40">
+                                                <button onClick={(e) => this.onUserDelete(e, user._id)}>Remove</button>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))
                         }

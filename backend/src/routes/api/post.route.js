@@ -13,6 +13,6 @@ const postController = require('../../controllers/post.controller')
 router.get('/:id', postController.get)
 router.put('/:id', auth(['admin']), validator(create), postController.update)
 router.delete('/:id', auth(['admin']), postController.delete)
-router.post('/create', auth(['admin']), validator(create), postController.create)
+router.post('/save', auth(['admin']), validator(create), postController.save)
 
 module.exports = router

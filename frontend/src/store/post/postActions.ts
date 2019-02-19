@@ -55,7 +55,7 @@ export const createPost = (post: { title: string, content: string, subtitle: str
 
             const response = await axios({
                 method: "POST",
-                url: `${ROOT_API_URL}/post/create`,
+                url: `${ROOT_API_URL}/post/save`,
                 data: {
                     title: post.title,
                     subtitle: post.subtitle,

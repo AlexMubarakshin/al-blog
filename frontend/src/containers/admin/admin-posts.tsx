@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Container } from "src/components/container";
 
-import { deletePost, getPosts } from "src/store/post/postActions";
+import { deletePost, getPosts, loadMorePosts } from "src/store/post/postActions";
 import { IApplicationStore, IPostStore } from "src/types/store";
 
 const mapStateToProps = (state: IApplicationStore) => ({
@@ -33,7 +33,13 @@ export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsSta
         this.props.dispatch!!(deletePost(postID));
     }
 
+    private onLoadMoreClick = () => {
+        this.props.dispatch(loadMorePosts());
+    }
+
     render() {
+        const isLoadMoreBtnVisible = this.props.postStore.totalLength !== this.props.postStore.posts.length;
+
         return (
             <Container>
                 <Link className="button" to={"/create/post"}>Create new post</Link>
@@ -66,6 +72,10 @@ export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsSta
                         }
                     </tbody>
                 </table>
+                <div>
+                    {isLoadMoreBtnVisible && (<button onClick={this.onLoadMoreClick}>More</button>)}
+                </div>
+
             </Container>
         );
     }

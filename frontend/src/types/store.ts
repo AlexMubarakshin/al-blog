@@ -2,6 +2,8 @@ import { IPost, IUser } from "./model";
 
 export interface IPostStore {
     posts: IPost[];
+    totalLength: number;
+    page: number;
     isFetching: boolean;
 }
 

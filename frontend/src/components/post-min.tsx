@@ -9,9 +9,7 @@ interface IPostMinProps {
     subtitle: string;
 }
 
-interface IPostMinState { }
-
-export class PostMin extends React.Component<IPostMinProps, IPostMinState> {
+export class PostMin extends React.PureComponent<IPostMinProps> {
 
     render() {
         return (

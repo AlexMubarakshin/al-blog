@@ -2,7 +2,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
-import { getPosts } from "src/store/post/postActions";
+import { getPosts, loadMorePosts } from "src/store/post/postActions";
 
 import { IApplicationStore, IPostStore, IGlobalStore } from "src/types/store";
 
@@ -29,37 +29,48 @@ export class PostList extends React.Component<IPostListProps, IPostListState> {
         this.props.dispatch!!(getPosts());
     }
 
-    // private onRemovePost = (postID: string) => {
-    //     this.props.dispatch!!(deletePost(postID));
-    // }
-
-    private renderPosts = () => {
-        // const canEdit = !!this.props.globalStore!!.token;
-
-        return this.props.postStore && this.props.postStore.posts.map((value) => (
+    private renderPosts = () => (
+        this.props.postStore && this.props.postStore.posts.map((value) => (
             <PostMin
                 key={value._id}
                 id={value._id}
                 title={value.title}
                 subtitle={value.subtitle} />
-        ));
+        ))
+    )
+
+    private onLoadMoreClick = () => {
+        this.props.dispatch!(loadMorePosts());
     }
 
     render() {
+        const isLoadMoreBtnVisible = this.props.postStore!.totalLength !== this.props.postStore!.posts.length;
+        const { isFetching, posts } = this.props.postStore!;
+        const isEmpty = !posts.length;
+
+        const isClearLoading = isEmpty && isFetching;
+        const ifFullyEmpty = !isFetching && isEmpty;
+
         return (
             <Container>
-                <h3>Latest posts:</h3>
                 {
-                    !!this.props.postStore!!.posts.length ?
-                        (
-                            <div className="post-list">
-                                {this.renderPosts()}
+                    isClearLoading && (<h2>Loading...</h2>)
+                }
+                {
+                    !isEmpty && (
+                        <div className="post-list">
+                            {this.renderPosts()}
+
+                            <div>
+                                {isLoadMoreBtnVisible && (<button onClick={this.onLoadMoreClick}>More</button>)}
                             </div>
-                        )
-                        :
-                        (
-                            <p>No posts</p>
-                        )
+                        </div>
+                    )
+                }
+                {
+                    ifFullyEmpty && (
+                        <p>No posts</p>
+                    )
                 }
             </Container>
         );

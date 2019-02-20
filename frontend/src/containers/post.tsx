@@ -51,16 +51,27 @@ export class Post extends React.PureComponent<IPostProps, IPostState> {
         return (
             <Container>
                 <Card>
-                    <div className="row">
-                        <div className="column column-70">
-                            <h2>{this.state.post ? this.state.post.title : ""}</h2>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="column">
-                            <ReactMarkdown source={this.state.post ? this.state.post.content : ""} />
-                        </div>
-                    </div>
+                    {
+                        !this.state.post && (
+                            <h2>Loading...</h2>
+                        )
+                    }
+                    {
+                        this.state.post && (
+                            <>
+                                <div className="row">
+                                    <div className="column column-70">
+                                        <h2>{this.state.post.title}</h2>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="column">
+                                        <ReactMarkdown source={this.state.post.content} />
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    }
                 </Card>
             </Container>
         );

@@ -29,7 +29,7 @@
     "@types/redux-logger": "^3.0.6",
     "@types/redux-persist": "^4.3.1",
     "@types/redux-thunk": "^2.1.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "react-dom": "^16.8.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",

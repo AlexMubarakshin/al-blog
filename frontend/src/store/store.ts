@@ -1,6 +1,5 @@
-import { createStore, applyMiddleware, combineReducers, Reducer, Store } from "redux";
+import { createStore, applyMiddleware, combineReducers, Reducer, Store, compose } from "redux";
 import thunk from "redux-thunk";
-import logger from "redux-logger";
 
 import axios from "axios";
 
@@ -16,6 +15,7 @@ import { adminReducer } from "./admin/";
 
 import { IApplicationStore } from "src/types/store";
 
+const isDebugging = process.env.NODE_ENV === "development";
 
 const persistConfig: PersistConfig = {
     key: "root",
@@ -45,12 +45,20 @@ export function configureStore(onComplete: () => void): Store<IApplicationStore>
 
     const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-    const middlewares = [logger, thunk];
+    const middlewares = [thunk];
 
-    const store = createStore(
-        persistedReducer,
+    if (!isDebugging) {
+        if ((window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+            // tslint:disable-next-line: no-empty
+            (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = () => { };
+        }
+    }
+
+    const composeEnhancers = isDebugging && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+    const store = composeEnhancers(
         applyMiddleware(...middlewares)
-    );
+    )(createStore)(persistedReducer);
 
     persistStore(store, undefined, () => {
         configureNetwork(store);

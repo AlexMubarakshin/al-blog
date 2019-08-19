@@ -26,3 +26,8 @@ export const AUTH_REGISTER = createRequestTypes(`${BASE_ACTION}/AUTH_REGISTER_RE
 export const ADMIN_USERS_GET = createRequestTypes(`${BASE_ACTION}/ADMIN/USERS_GET`);
 export const ADMIN_USERS_DELETE = createRequestTypes(`${BASE_ACTION}/ADMIN/USERS_DELETE`);
 //#endregion
+
+//#region SITE ACTIONS
+export const SITE_INFO_GET = createRequestTypes(`${BASE_ACTION}/SITE/INFO_GET`);
+export const SITE_INFO_UPDATE = createRequestTypes(`${BASE_ACTION}/SITE/INFO_UPDATE`);
+//#endregion

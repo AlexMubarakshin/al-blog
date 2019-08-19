@@ -32,6 +32,9 @@ export class AdminHome extends React.Component<IAdminHomeProps, IAdminHomeState>
                     <li>
                         <Link to="/admin/users">Users panel</Link>
                     </li>
+                    <li>
+                        <Link to="/admin/site">Site info</Link>
+                    </li>
                 </ul>
             </Container>
         );

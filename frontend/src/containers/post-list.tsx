@@ -45,11 +45,11 @@ export class PostList extends React.Component<IPostListProps, IPostListState> {
 
     render() {
         const isLoadMoreBtnVisible = this.props.postStore!.totalLength !== this.props.postStore!.posts.length;
-        const { isFetching, posts } = this.props.postStore!;
+        const { isLoading, posts } = this.props.postStore!;
         const isEmpty = !posts.length;
 
-        const isClearLoading = isEmpty && isFetching;
-        const ifFullyEmpty = !isFetching && isEmpty;
+        const isClearLoading = isEmpty && isLoading;
+        const ifFullyEmpty = !isLoading && isEmpty;
 
         return (
             <Container>

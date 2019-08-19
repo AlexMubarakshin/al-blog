@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, combineReducers, Reducer, Store, compose } from "redux";
+import { createStore, applyMiddleware, Store, compose } from "redux";
 import thunk from "redux-thunk";
 
 import axios from "axios";
 
-import { persistStore, persistReducer, PersistConfig } from "redux-persist";
+import { persistStore, PersistConfig, persistCombineReducers } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { userReducer } from "./profile/profileReducer";
@@ -21,7 +21,7 @@ const persistConfig: PersistConfig = {
     key: "root",
     keyPrefix: "",
     storage,
-    blacklist: ["postReducer", "authReducer", "adminReducer"]
+    whitelist: ["globalStore", "siteStore", "profileStore"]
 };
 
 function configureNetwork(store: Store<IApplicationStore>) {
@@ -34,7 +34,7 @@ function configureNetwork(store: Store<IApplicationStore>) {
 
 export function configureStore(onComplete: () => void): Store<IApplicationStore> {
 
-    const rootReducer: Reducer<IApplicationStore> = combineReducers({
+    const persistedReducer = persistCombineReducers<IApplicationStore>(persistConfig, {
         adminStore: adminReducer,
         authStore: authReducer,
         globalStore: globalReducer,
@@ -42,8 +42,6 @@ export function configureStore(onComplete: () => void): Store<IApplicationStore>
         siteStore: siteReducer,
         profileStore: userReducer
     });
-
-    const persistedReducer = persistReducer(persistConfig, rootReducer);
 
     const middlewares = [thunk];
 

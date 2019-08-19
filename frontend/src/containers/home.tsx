@@ -11,18 +11,22 @@ const mapStateToProps = (state: IApplicationStore) => ({
 });
 
 interface IHomeProps {
-    siteConfig?: ISiteConfigStore;
+    siteConfig: ISiteConfigStore;
 }
 
-interface IHomeState {}
+interface IHomeState { }
 
 @(connect as any)(mapStateToProps)
 export class Home extends React.Component<IHomeProps, IHomeState> {
 
     render() {
+        const { siteName, siteDescription } = this.props.siteConfig;
         return (
             <>
-                <Header siteName={this.props.siteConfig!!.siteName}/>
+                <Header
+                    title={siteName}
+                    description={siteDescription}
+                />
                 <PostList />
             </>
         );

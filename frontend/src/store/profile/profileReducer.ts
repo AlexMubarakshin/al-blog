@@ -4,7 +4,7 @@ import { IProfileStore } from "src/types/store";
 import { PROFILE_GET, AUTH_LOGOUT } from "src/types/actions";
 
 const initialState: IProfileStore = {
-    isFetching: false,
+    isLoading: false,
     user: undefined
 };
 
@@ -13,18 +13,18 @@ export function userReducer(state = initialState, action: AnyAction): IProfileSt
         case PROFILE_GET.FAILURE:
             return {
                 ...state,
-                isFetching: false
+                isLoading: false
             };
         case PROFILE_GET.REQUEST:
             return {
                 ...state,
-                isFetching: true
+                isLoading: true
             };
         case PROFILE_GET.SUCCESS:
             return {
                 ...state,
                 user: action.user,
-                isFetching: false
+                isLoading: false
             };
 
         case AUTH_LOGOUT:

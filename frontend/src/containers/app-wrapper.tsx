@@ -32,7 +32,6 @@ export class AppWrapper extends React.Component<IAppWrapperProps, IAppWrapperSta
         const links = [];
         if (this.props.globalStore && this.props.globalStore.token) {
             const user = this.props.profileStore && this.props.profileStore.user;
-
             const isAdmin = user && user.role === "admin";
             const userEmailTitle = user && user.email ? ` (${user.email})` : "";
 

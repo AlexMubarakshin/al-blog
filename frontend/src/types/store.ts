@@ -1,17 +1,16 @@
-import { IPost, IUser } from "./model";
+import { IPost, IUser, ISiteConfig } from "./model";
 
 export interface IPostStore {
     posts: IPost[];
     totalLength: number;
     page: number;
-    isFetching: boolean;
+    isLoading: boolean;
 }
 
-export interface ISiteConfigStore {
-    siteName: string;
-
-    ownerName: string;
-    ownerSiteURL: string;
+export interface ISiteConfigStore extends ISiteConfig {
+    infoError?: any;
+    isUpdating: boolean;
+    isLoading: boolean;
 }
 
 export interface IGlobalStore {
@@ -24,7 +23,7 @@ export interface IAuthStore {
 }
 
 export interface IAdminUserStore {
-    isFetching: boolean;
+    isLoading: boolean;
     users: IUser[];
 }
 
@@ -33,7 +32,7 @@ export interface IAdminStore {
 }
 
 export interface IProfileStore {
-    isFetching: boolean;
+    isLoading: boolean;
     user?: IUser;
 }
 

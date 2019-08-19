@@ -9,7 +9,7 @@ function onGetPost(currentState: IPostStore, action: AnyAction): IPostStore {
     
     nextState.page = action.data.page;
     nextState.totalLength = action.data.totalLength;
-    nextState.isFetching = false;
+    nextState.isLoading = false;
 
     if (action.data.page <= currentState.page) {
         nextState.posts = action.data.posts;
@@ -23,7 +23,7 @@ function onGetPost(currentState: IPostStore, action: AnyAction): IPostStore {
 
 const initialState: IPostStore = {
     posts: [],
-    isFetching: false,
+    isLoading: false,
     page: 1,
     totalLength: 0
 };
@@ -44,13 +44,13 @@ export function postReducer(state = initialState, action: AnyAction): IPostStore
         case POSTS_GET.REQUEST:
             return {
                 ...state,
-                isFetching: true
+                isLoading: true
             };
 
         case POSTS_GET.FAILURE:
             return {
                 ...state,
-                isFetching: false
+                isLoading: false
             };
 
         case POSTS_GET.SUCCESS:

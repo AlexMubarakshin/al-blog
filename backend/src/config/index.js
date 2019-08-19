@@ -8,5 +8,11 @@ module.exports = {
   mongo: {
     uri: process.env.MONGOURI,
     testURI: process.env.MONGOTESTURI
+  },
+  siteInfo: {
+    siteName: process.env.SITE_NAME || '',
+    siteDescription: process.env.SITE_DESCRIPTION || '',
+    ownerName: process.env.OWNER_NAME || '',
+    ownerSiteURL: process.env.OWNER_SITE_URL || ''
   }
 }

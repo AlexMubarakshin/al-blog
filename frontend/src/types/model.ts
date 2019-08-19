@@ -11,3 +11,11 @@ export interface IUser {
     email: string;
     name: string;
 }
+
+export interface ISiteConfig {
+    siteName: string;
+    siteDescription: string;
+
+    ownerName: string;
+    ownerSiteURL: string;
+}

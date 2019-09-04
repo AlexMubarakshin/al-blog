@@ -1,5 +1,7 @@
 # Al-Blog
 
+Simple kanban-board build with [Typescript](https://www.typescriptlang.org/docs/home.html) and [React](https://reactjs.org/docs/getting-started.html).
+
 🚧 Work in progress  
 
 This is my full-stack personal blog build with: `Express`, `React`.  

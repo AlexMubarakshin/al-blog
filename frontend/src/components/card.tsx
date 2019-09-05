@@ -4,20 +4,18 @@ interface ICardProps {
     raised?: boolean;
 }
 
-export class Card extends React.PureComponent<ICardProps> {
+export const Card: React.FC<ICardProps> = ({ raised, children }) => {
 
-    render() {
-        const classNames = ["card"];
-        if (this.props.raised) {
-            classNames.push("card--raised");
-        }
-
-        return (
-            <div className={classNames.join(" ")}>
-                <div className="card__content">
-                    {this.props.children}
-                </div>
-            </div>
-        );
+    const classNames = ["card"];
+    if (raised) {
+        classNames.push("card--raised");
     }
-}
+
+    return (
+        <div className={classNames.join(" ")}>
+            <div className="card__content">
+                {children}
+            </div>
+        </div>
+    );
+};

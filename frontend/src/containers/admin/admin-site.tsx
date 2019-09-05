@@ -68,6 +68,11 @@ export class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState>
         }
     }
 
+    private onSiteNameChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ siteName: e.target.value });
+    private onSiteDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ siteDescription: e.target.value });
+    private onOwnerNameChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ ownerName: e.target.value });
+    private onOwnerURLChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ ownerSiteURL: e.target.value });
+
     render() {
         const errMessage = this.props.siteStore.infoError && this.props.siteStore.infoError.message;
         return (
@@ -79,7 +84,7 @@ export class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState>
                         <label htmlFor="site-name">Site name</label>
                         <input
                             value={this.state.siteName}
-                            onChange={e => this.setState({ siteName: e.target.value })}
+                            onChange={this.onSiteNameChange}
                             placeholder="Site name"
                             id="site-name"
                             type="text"
@@ -89,7 +94,7 @@ export class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState>
                         <label htmlFor="site-description">Site description</label>
                         <input
                             value={this.state.siteDescription}
-                            onChange={e => this.setState({ siteDescription: e.target.value })}
+                            onChange={this.onSiteDescriptionChange}
                             placeholder="Site description"
                             id="site-description"
                             type="text"
@@ -99,7 +104,7 @@ export class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState>
                         <label htmlFor="owner-name">Owner name</label>
                         <input
                             value={this.state.ownerName}
-                            onChange={e => this.setState({ ownerName: e.target.value })}
+                            onChange={this.onOwnerNameChange}
                             placeholder="Owner name"
                             id="owner-name"
                             type="text"
@@ -109,7 +114,7 @@ export class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState>
                         <label htmlFor="owner-site-url">Owner site url</label>
                         <input
                             value={this.state.ownerSiteURL}
-                            onChange={e => this.setState({ ownerSiteURL: e.target.value })}
+                            onChange={this.onOwnerURLChange}
                             placeholder="Owner site url"
                             id="owner-site-url"
                             type="text"

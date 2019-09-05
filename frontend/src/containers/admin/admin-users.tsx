@@ -34,6 +34,7 @@ export class AdminUsers extends React.Component<IAdminUsersProps, IAdminUsersSta
     }
 
     render() {
+        const { users } = this.props.usersStore;
         return (
             <Container>
                 <h1>User control</h1>
@@ -49,21 +50,25 @@ export class AdminUsers extends React.Component<IAdminUsersProps, IAdminUsersSta
                     </thead>
                     <tbody>
                         {
-                            this.props.usersStore.users.map((user) => (
-                                <tr key={user._id}>
-                                    <td>{user._id}</td>
-                                    <td>{user.role}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td>
-                                        <div className="row">
-                                            <div className="column column-40">
-                                                <button onClick={(e) => this.onUserDelete(e, user._id)}>Remove</button>
+                            users.map((user) => {
+                                const onRemoveClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => this.onUserDelete(e, user._id);
+
+                                return (
+                                    <tr key={user._id}>
+                                        <td>{user._id}</td>
+                                        <td>{user.role}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            <div className="row">
+                                                <div className="column column-40">
+                                                    <button onClick={onRemoveClick}>Remove</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         }
                     </tbody>
                 </table>

@@ -1,15 +1,10 @@
 import * as React from "react";
 import { Container } from "./container";
 
-export class Footer extends React.PureComponent {
-
-    render() {
-        return (
-            <footer>
-                <Container>
-                    {this.props.children}
-                </Container>
-            </footer>
-        );
-    }
-}
+export const Footer: React.FC = ({ children }) => (
+    <footer>
+        <Container>
+            {children}
+        </Container>
+    </footer>
+);

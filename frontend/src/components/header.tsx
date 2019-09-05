@@ -7,18 +7,11 @@ interface IHeaderProps {
     description: string;
 }
 
-interface IHeaderState { }
-
-export class Header extends React.Component<IHeaderProps, IHeaderState> {
-
-    render() {
-        return (
-            <header className="header">
-                <Container>
-                    <h1 className="title">{this.props.title}</h1>
-                    <h3 className="subtitle">{this.props.description}</h3>
-                </Container>
-            </header>
-        );
-    }
-}
+export const Header: React.FC<IHeaderProps> = ({ title, description }) => (
+    <header className="header">
+        <Container>
+            <h1 className="title">{title}</h1>
+            <h3 className="subtitle">{description}</h3>
+        </Container>
+    </header>
+);

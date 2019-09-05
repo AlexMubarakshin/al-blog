@@ -38,7 +38,8 @@ export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsSta
     }
 
     render() {
-        const isLoadMoreBtnVisible = this.props.postStore.totalLength !== this.props.postStore.posts.length;
+        const { postStore } = this.props;
+        const isLoadMoreBtnVisible = postStore.totalLength !== postStore.posts.length;
 
         return (
             <Container>
@@ -53,22 +54,25 @@ export class AdminPosts extends React.Component<IAdminPostsProps, IAdminPostsSta
                     </thead>
                     <tbody>
                         {
-                            this.props.postStore.posts.map((post) => (
-                                <tr key={post._id}>
-                                    <td>{post._id}</td>
-                                    <td>{post.title}</td>
-                                    <td>
-                                        <div className="row">
-                                            <div className="column column-40">
-                                                <Link className="button" to={`/edit/post/${post._id}`}>Edit</Link>
+                            postStore.posts.map((post) => {
+                                const onRemovePress = (e: React.MouseEvent<HTMLButtonElement>) => this.onRemovePost(e, post._id);
+                                return (
+                                    <tr key={post._id}>
+                                        <td>{post._id}</td>
+                                        <td>{post.title}</td>
+                                        <td>
+                                            <div className="row">
+                                                <div className="column column-40">
+                                                    <Link className="button" to={`/edit/post/${post._id}`}>Edit</Link>
+                                                </div>
+                                                <div className="column column-40">
+                                                    <button onClick={onRemovePress}>Remove</button>
+                                                </div>
                                             </div>
-                                            <div className="column column-40">
-                                                <button onClick={(e) => this.onRemovePost(e, post._id)}>Remove</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         }
                     </tbody>
                 </table>

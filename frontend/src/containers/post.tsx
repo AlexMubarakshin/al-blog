@@ -48,25 +48,26 @@ export class Post extends React.PureComponent<IPostProps, IPostState> {
 
 
     render() {
+        const { post } = this.state;
         return (
             <Container>
                 <Card>
                     {
-                        !this.state.post && (
+                        !post && (
                             <h2>Loading...</h2>
                         )
                     }
                     {
-                        this.state.post && (
+                        post && (
                             <>
                                 <div className="row">
                                     <div className="column column-70">
-                                        <h2>{this.state.post.title}</h2>
+                                        <h2>{post.title}</h2>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="column">
-                                        <ReactMarkdown source={this.state.post.content} />
+                                        <ReactMarkdown source={post.content} />
                                     </div>
                                 </div>
                             </>

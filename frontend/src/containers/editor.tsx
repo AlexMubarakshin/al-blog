@@ -40,6 +40,11 @@ interface IEditorState {
 @(connect as any)(mapStateToProps)
 export class Editor extends React.Component<IEditorProps, IEditorState> {
 
+    private tabs = [
+        { title: "Editor", onClick: () => this.setMode(EditorMode.EDITOR) },
+        { title: "Preview", onClick: () => this.setMode(EditorMode.PREVIEW) }
+    ];
+
     state: IEditorState = {
         editorMode: EditorMode.EDITOR,
         title: "",
@@ -121,10 +126,9 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
         });
     }
 
-    private tabs = [
-        { title: "Editor", onClick: () => this.setMode(EditorMode.EDITOR) },
-        { title: "Preview", onClick: () => this.setMode(EditorMode.PREVIEW) }
-    ];
+    private onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ title: e.target.value });
+    private onSubTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ subtitle: e.target.value });
+    private onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => this.setState({ content: e.target.value });
 
     render() {
         const editPostID = this.props.match.params.id;
@@ -134,56 +138,55 @@ export class Editor extends React.Component<IEditorProps, IEditorState> {
             <div>
                 <Container>
                     <Tabs tabs={this.tabs} />
+
                     {
-                        this.state.editorMode === EditorMode.EDITOR ?
-                            (
-                                <Card>
-                                    <form onSubmit={this.onFormSubmit}>
-                                        <fieldset>
-                                            <h1>{title}</h1>
+                        this.state.editorMode === EditorMode.EDITOR && (
+                            <Card>
+                                <form onSubmit={this.onFormSubmit}>
+                                    <fieldset>
+                                        <h1>{title}</h1>
 
-                                            <label htmlFor="post-title">Title</label>
-                                            <input
-                                                value={this.state.title}
-                                                onChange={e => this.setState({ title: e.target.value })}
-                                                placeholder="Title"
-                                                id="post-title"
-                                                type="text"
-                                                autoComplete="off">
-                                            </input>
+                                        <label htmlFor="post-title">Title</label>
+                                        <input
+                                            value={this.state.title}
+                                            onChange={this.onTitleChange}
+                                            placeholder="Title"
+                                            id="post-title"
+                                            type="text"
+                                            autoComplete="off">
+                                        </input>
 
-                                            <label htmlFor="post-subtitle">Subtitle</label>
-                                            <input
-                                                value={this.state.subtitle}
-                                                onChange={e => this.setState({ subtitle: e.target.value })}
-                                                placeholder="Subtitle"
-                                                id="post-subtitle"
-                                                type="text"
-                                                autoComplete="off">
-                                            </input>
+                                        <label htmlFor="post-subtitle">Subtitle</label>
+                                        <input
+                                            value={this.state.subtitle}
+                                            onChange={this.onSubTitleChange}
+                                            placeholder="Subtitle"
+                                            id="post-subtitle"
+                                            type="text"
+                                            autoComplete="off">
+                                        </input>
 
-                                            <label htmlFor="post-content">Content</label>
-                                            <textarea
-                                                style={{ maxWidth: "714px", resize: "vertical", height: "512px" }}
-                                                rows={555}
-                                                value={this.state.content}
-                                                onChange={e => this.setState({ content: e.target.value })}
-                                                id="post-content"
-                                                placeholder="Content" />
-                                            <button className="float-right" type="submit">DONE</button>
-                                        </fieldset>
-                                    </form>
-                                </Card>
-                            )
-                            :
-                            (
-                                <>
-                                    <Card>
-                                        <h2>{this.state.title}</h2>
-                                        <ReactMarkdown source={this.state.content} />
-                                    </Card>
-                                </>
-                            )
+                                        <label htmlFor="post-content">Content</label>
+                                        <textarea
+                                            style={{ maxWidth: "714px", resize: "vertical", height: "512px" }}
+                                            rows={555}
+                                            value={this.state.content}
+                                            onChange={this.onContentChange}
+                                            id="post-content"
+                                            placeholder="Content" />
+                                        <button className="float-right" type="submit">DONE</button>
+                                    </fieldset>
+                                </form>
+                            </Card>
+                        )
+                    }
+                    {
+                        this.state.editorMode === EditorMode.PREVIEW && (
+                            <Card>
+                                <h2>{this.state.title}</h2>
+                                <ReactMarkdown source={this.state.content} />
+                            </Card>
+                        )
                     }
                 </Container>
             </div>
